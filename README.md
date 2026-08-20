@@ -51,18 +51,29 @@ MSD Pancreas (Medical Segmentation Decathlon -- Task 07)
 git clone https://github.com/ArpanC6/bayesian-pancreas-seg.git
 cd bayesian-pancreas-seg
 pip install -r requirements.txt
-Training
-bash
+```
+
+### Training
+
+```bash
 python train.py --data_root ./data/Task07_Pancreas --epochs 300 --save_dir ./checkpoints
-Inference with Uncertainty Quantification
-bash
+```
+
+### Inference with Uncertainty Quantification
+
+```bash
 python inference.py --checkpoint ./checkpoints/best_model.pth --data_root ./data/Task07_Pancreas --T 30 --output_dir ./predictions
+```
+
 The inference script produces three outputs per case:
-*_pred.npy -- mean predicted probability map
-*_epistemic.npy -- epistemic uncertainty (variance across MC passes)
-*_entropy.npy -- predictive entropy (total uncertainty)
-File Structure
-plain
+
+1. `*_pred.npy` -- mean predicted probability map
+2. `*_epistemic.npy` -- epistemic uncertainty (variance across MC passes)
+3. `*_entropy.npy` -- predictive entropy (total uncertainty)
+
+## File Structure
+
+```
 bayesian-pancreas-seg/
 |-- model.py              # BayesianUNet3D architecture
 |-- train.py              # Training loop with Dice+BCE loss
@@ -71,16 +82,23 @@ bayesian-pancreas-seg/
 |-- utils.py              # Dice score and evaluation metrics
 |-- requirements.txt      # Python dependencies
 |-- README.md             # This file
-Key Design Choices
-Residual Blocks: Stabilize gradient flow in deep 3D networks.
-Attention Gates: Suppress irrelevant background regions in skip connections, focusing the decoder on the pancreas region.
-MC Dropout: Enables uncertainty quantification without requiring an ensemble of models. Dropout layers remain active during inference to sample from the approximate posterior.
-Conservative Postprocessing: No heavy morphological operations; the model is trained end-to-end to produce anatomically plausible masks.
-Author
-Arpan Chakraborty
-Email: chakrabortyarpan151@gmail.com
-GitHub: ArpanC6
-Acknowledgments
-Johns Hopkins University, CCVL Lab
-Medical Segmentation Decathlon (MSD) for the public dataset
-UNet++ and Attention UNet papers for architectural inspiration
+```
+
+## Key Design Choices
+
+1. **Residual Blocks**: Stabilize gradient flow in deep 3D networks.
+2. **Attention Gates**: Suppress irrelevant background regions in skip connections, focusing the decoder on the pancreas region.
+3. **MC Dropout**: Enables uncertainty quantification without requiring an ensemble of models. Dropout layers remain active during inference to sample from the approximate posterior.
+4. **Conservative Postprocessing**: No heavy morphological operations; the model is trained end-to-end to produce anatomically plausible masks.
+
+## Author
+
+Arpan Chakraborty  
+Email: chakrabortyarpan151@gmail.com  
+GitHub: [ArpanC6](https://github.com/ArpanC6)
+
+## Acknowledgments
+
+- Johns Hopkins University, CCVL Lab
+- Medical Segmentation Decathlon (MSD) for the public dataset
+- UNet++ and Attention UNet papers for architectural inspiration
